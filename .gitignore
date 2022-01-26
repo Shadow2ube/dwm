@@ -1,7 +1,5 @@
 *.orig
 *.rej
 config.h
-drw.o
-dwm.o
-util.o
+*.o
 dwm
