@@ -101,6 +101,9 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont, "-nb", col_gray1, "-nf", col_gray3, "-sb", col_cyan, "-sf", col_gray4, NULL };
 static const char *termcmd[]  = { "st", NULL };
 static const char *screenshot[] = { "screenshot", NULL };
+static const char *volume[3][4] = {{"pamixer", "-i", "2", NULL}, {"pamixer", "-d", "2", NULL}, {"pamixer", "-t", "", NULL} };
+
+#include <X11/XF86keysym.h>
 
 static Key keys[] = {
 	/* modifier                     key           function        argument */
@@ -118,22 +121,25 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_l,         setcfact,       {.f = -0.25} },
 	{ MODKEY|ShiftMask,             XK_o,         setcfact,       {.f =  0.00} },
 	{ MODKEY|ShiftMask,             XK_Return,    zoom,           {0} },
-	{ MODKEY|Mod4Mask,              XK_u,         incrgaps,       {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_u,         incrgaps,       {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_i,         incrigaps,      {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_i,         incrigaps,      {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_o,         incrogaps,      {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_o,         incrogaps,      {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_6,         incrihgaps,     {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_6,         incrihgaps,     {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_7,         incrivgaps,     {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_7,         incrivgaps,     {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_8,         incrohgaps,     {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_8,         incrohgaps,     {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_9,         incrovgaps,     {.i = +1 } },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_9,         incrovgaps,     {.i = -1 } },
-	{ MODKEY|Mod4Mask,              XK_0,         togglegaps,     {0} },
-	{ MODKEY|Mod4Mask|ShiftMask,    XK_0,         defaultgaps,    {0} },
+	{ MODKEY|Mod1Mask,              XK_u,         incrgaps,       {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_u,         incrgaps,       {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_i,         incrigaps,      {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_i,         incrigaps,      {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_o,         incrogaps,      {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_o,         incrogaps,      {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_6,         incrihgaps,     {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_6,         incrihgaps,     {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_7,         incrivgaps,     {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_7,         incrivgaps,     {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_8,         incrohgaps,     {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_8,         incrohgaps,     {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_9,         incrovgaps,     {.i = +1 } },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_9,         incrovgaps,     {.i = -1 } },
+	{ MODKEY|Mod1Mask,              XK_0,         togglegaps,     {0} },
+	{ MODKEY|Mod1Mask|ShiftMask,    XK_0,         defaultgaps,    {0} },
+	{ 0,                 XF86XK_AudioRaiseVolume, spawn,          {.v = volume[0]} },
+	{ 0,                 XF86XK_AudioLowerVolume, spawn,          {.v = volume[1]} },
+	{ 0,                        XF86XK_AudioMute, spawn,          {.v = volume[2]} },
 	{ MODKEY,                       XK_Tab,       view,           {0} },
 	{ MODKEY,                       XK_BackSpace, killclient,     {0} },
 	{ MODKEY,                       XK_t,         setlayout,      {.v = &layouts[0]} },
